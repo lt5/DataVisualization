@@ -1,4 +1,11 @@
 $(function () {
+
+        
+        $("select.CountrySelector").change(function () {
+            var oSelected = $(this).find(":selected");
+                console.log( oSelected.val() + " " + oSelected.text() );
+        });
+
         $('#container').highcharts({
             chart: {
                 type: 'line',
