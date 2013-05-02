@@ -3,13 +3,21 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
+  , mongoose = require('mongoose')
   , http = require('http')
-  , path = require('path');
+  , path = require('path') ;
 
 var app = express();
 
-
+//db connection
+mongoose.connect('mongodb://localhost/FinalProject', function (err,rsp) {
+  if(!err) {
+    console.log("Successfully connected to the Database");
+  }
+  else {
+    console.log("Error while connecting to the Database");
+  }
+});
 
 
 // Configuration
@@ -38,14 +46,21 @@ app.configure('production', function(){
 
 // Routes
 
+require('./models/energyUse');
+routes = require('./routes');
+app.get('/api', function (req,res) {
+  var obj = 
+    [{country: 'test', id:'1231'},
+     {country: 'country2', id:'1231'}]
+  res.send(obj);
+});
+
+
 app.get('/', routes.index);
 app.get('/home', routes.home);
-app.get('/about', routes.about);
-var oData = routes.oCountries;
 
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
-  console.log(oData);
+  //console.log(routes.home);
 });
-
